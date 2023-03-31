@@ -20,21 +20,22 @@ pid = PIDController(1, 0.1, 0.01, 1)
 water_level = 50
 
 # Задаем целевой уровень воды в емкости.
-setpoint = 40
+setpoint = 60
 
 # Основной цикл программы.
 while True:
     # Симулируем изменение уровня воды в емкости с помощью синусоидального сигнала.
-    water_level = 45 + 15 * math.sin(time.time() / 60)
+    rashod =  1 + math.sin(time.time() / 60)       
 
     # Вычисляем значение управляющего воздействия с помощью PID-регулятора.
     control_signal = pid.compute(setpoint, water_level)
-
+   
     # Приводим значение управляющего воздействия к диапазону от 0 до 100.
     control_signal = max(min(control_signal, 100), 0)
 
+    water_level =  water_level  - rashod + control_signal
     # Отображаем текущее состояние системы.
-    print(f"Water level: {water_level:.2f}, Control signal: {control_signal:.2f}")
+    print(f"Water level: {water_level:.2f}, Control signal: {control_signal:.2f}, Расход: {rashod:.2f}")
 
     # Задерживаем выполнение программы на 1 секунду.
     time.sleep(1)
